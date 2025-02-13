@@ -10,6 +10,8 @@
     "moduleResolution": "bundler",
     "isolatedModules": true,
     "moduleDetection": "force",
+    "declaration": true,
+    "declarationMap": true,
 
     /* Output */
     "outDir": "dist",
