@@ -76,7 +76,8 @@ export class API {
       clearTimeout(timeout)
 
       if (this.formatToJson) {
-        await response.json()
+        const jsonData = await response.json()
+        return Data.success(jsonData as T)
       }
 
       if (!response.ok) {
