@@ -7,11 +7,21 @@ interface FetchOptions extends RequestInit {
 export class API {
   public url: string
   public abortSeconds: number
+  public formatToJson: boolean
   private headers: HeadersInit = {}
   private options: RequestInit = {}
 
-  constructor (url: string, abortSeconds?: number) {
+  constructor ({
+    url,
+    formatToJson,
+    abortSeconds
+  }: {
+    url: string
+    abortSeconds?: number
+    formatToJson?: boolean
+  }) {
     this.url = url
+    this.formatToJson = formatToJson ?? false
     this.abortSeconds = abortSeconds ?? 20
   }
 
@@ -53,7 +63,7 @@ export class API {
         headers: {
           'Content-Type': 'application/json',
           ...this.headers,
-          
+
           ...options.headers
         },
         credentials: 'include',
@@ -64,6 +74,10 @@ export class API {
       })
 
       clearTimeout(timeout)
+
+      if (this.formatToJson) {
+        await response.json()
+      }
 
       if (!response.ok) {
         return Data.failure({
